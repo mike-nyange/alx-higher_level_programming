@@ -1,10 +1,12 @@
 #!/usr/bin/python3
 def add(a, b):
-    """Addition function
+    """My addition function
+
     Args:
-        a: first argument
-        b: second argument
+        a: first integer
+        b: second integer
+
     Returns:
-        The sum of a and b
+        The return value. a + b
     """
     return (a + b)
