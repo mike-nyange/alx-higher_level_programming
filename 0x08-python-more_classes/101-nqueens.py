@@ -1,56 +1,53 @@
 #!/usr/bin/python3
 
 
-import sys
+from sys import argv
 
+if __name__ == "__main__":
+    a = []
+    if len(argv) != 2:
+        print("Usage: nqueens N")
+        exit(1)
+    if argv[1].isdigit() is False:
+        print("N must be a number")
+        exit(1)
+    n = int(argv[1])
+    if n < 4:
+        print("N must be at least 4")
+        exit(1)
 
-class Solution_Board:
+    for i in range(n):
+        a.append([i, None])
 
-    solutions = []
-
-    def __init__(self, num):
-        self.num = num
-
-    @property
-    def num(self):
-        return self.__num
-
-    @num.setter
-    def num(self, value):
-        if not isinstance(num, int):
-            raise TypeError("num should be an int")
-        self.__num = value
-
-
-args = sys.argv
-
-if len(args) != 2:
-    exit(1)
-if not args[1].isdigit():
-    print("N must be a number")
-    exit(1)
-
-num = int(args[1])
-if num < 4:
-    print("N must be at least 4")
-    exit(1)
-
-solutions = []
-board = [[0 for a in range(0, num)] for b in range(0, num)]
-running = True
-while running:
-    sol = get_n_queens(board)
-    solutions.append(sol)
-    running = False
-
-
-def get_n_queens(chess_board, column, num):
-    if column >= num:
-        return True
-    for i in range(0, num):
-        if board_safe(chess_board, column):
-            chess_board[i][column] = 1
-            if get_n_queens(chess_board, column + 1):
+    def already_exists(y):
+        """check that a queen does not already exist in that y value"""
+        for x in range(n):
+            if y == a[x][1]:
                 return True
-            board[i][column] = 0
-    return False
+        return False
+
+    def reject(x, y):
+        if (already_exists(y)):
+            return False
+        i = 0
+        while(i < x):
+            if abs(a[i][1] - y) == abs(i - x):
+                return False
+            i += 1
+        return True
+
+    def clear_a(x):
+        for i in range(x, n):
+            a[i][1] = None
+
+    def nqueens(x):
+        for y in range(n):
+            clear_a(x)
+            if reject(x, y):
+                a[x][1] = y
+                if (x == n - 1):  # accepts the solution
+                    print(a)
+                else:
+                    nqueens(x + 1)  # moves on to next x value to continue
+
+    nqueens(0)
