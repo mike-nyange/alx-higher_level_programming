@@ -1,65 +1,28 @@
 #!/usr/bin/python3
-''''Task:Write an empty class Rectangle that defines a rectangle'''
 
 
 class Rectangle():
-    '''This is a class that creates instances of a
-    rectangle'''
+    """rectangle class for storing rectangle data
+    """
 
     number_of_instances = 0
     print_symbol = "#"
 
     def __init__(self, width=0, height=0):
-        self.height = height
+        """ instantiation method for object creation
+        """
         self.width = width
-
+        self.height = height
         Rectangle.number_of_instances += 1
 
-    def __del__(self):
-        Rectangle.number_of_instances -= 1
-        print("Bye rectangle...")
-
-    @property
-    def height(self):
-        return self.__height
-
-    @height.setter
-    def height(self, value):
-
-        if type(value) != int:
-            raise TypeError('height must be an integer')
-        if value < 0:
-            raise ValueError('height must be >= 0')
-
-        self.__height = value
-
-    @property
-    def width(self):
-        return self.__width
-
-    @width.setter
-    def width(self, value):
-        if type(value) != int:
-            raise TypeError('width must be an integer')
-        if value < 0:
-            raise ValueError('width must be >= 0')
-        self.__width = value
-
-    def area(self):
-        area = (self.__width * self.__height)
-        return area
-
-    def perimeter(self):
-        if self.__width == 0 or self.__height == 0:
-            return 0
-        perimeter = ((self.__width * 2) + (self.__height * 2))
-        return perimeter
-
     def __str__(self):
-        string = ""
+        """ provides __str__ method for object when str()
+            or print() is called
+        """
         if self.width == 0 or self.height == 0:
-            return string
+            return ""
 
+        string = ""
         for i in range(0, self.height):
             for j in range(0, self.width):
                 string += str(self.print_symbol)
@@ -68,19 +31,73 @@ class Rectangle():
         return string
 
     def __repr__(self):
-        return "Rectangle({:d}, {:d})".format(self.__width, self.__height)
+        """ provides __repr__ method for object when repr()
+            is called, or eval().
+        """
+        string = "Rectangle("
+        string += str(self.width)
+        string += ", " + str(self.height) + ")"
+        return string
+
+    def __del__(self):
+        """ called when a rectangle instance is deleted """
+        print("Bye rectangle...")
+        Rectangle.number_of_instances -= 1
+
+    @property
+    def height(self):
+        """ getter for height property """
+        return self.__height
+
+    @height.setter
+    def height(self, value):
+        """ setter for height property """
+        if not isinstance(value, int):
+            raise TypeError("height must be an integer")
+        elif value < 0:
+            raise ValueError("height must be >= 0")
+        else:
+            self.__height = value
+
+    @property
+    def width(self):
+        """ getter for width property """
+        return self.__width
+
+    @width.setter
+    def width(self, value):
+        """ setter for width property """
+        if not isinstance(value, int):
+            raise TypeError("width must be an integer")
+        elif value < 0:
+            raise ValueError("width must be >= 0")
+        else:
+            self.__width = value
+
+    def area(self):
+        """ gets the area of rectangle instance """
+        return (self.width * self.height)
+
+    def perimeter(self):
+        """ gets the perimeter of a rectangle instance """
+        if self.width == 0 or self.height == 0:
+            return 0
+        return ((2 * self.width) + (2 * self.height))
 
     @staticmethod
     def bigger_or_equal(rect_1, rect_2):
-        if (type(rect_1) != Rectangle):
+        """ returns biggest rectangle based on area """
+        if not isinstance(rect_1, Rectangle):
             raise TypeError("rect_1 must be an instance of Rectangle")
-        if (type(rect_2) != Rectangle):
+        if not isinstance(rect_2, Rectangle):
             raise TypeError("rect_2 must be an instance of Rectangle")
-        if rect_1.area() >= rect_2.area():
+        if rect_2.area() > rect_1.area():
+            return rect_2
+        else:
             return rect_1
-        return rect_2
 
     @classmethod
     def square(cls, size=0):
-        """returns a new Rectangle instance that is a square w/ h==w==size"""
+        """ returns a new rectangle with width==height==size
+        """
         return cls(size, size)
