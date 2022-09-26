@@ -1,19 +1,20 @@
 #!/usr/bin/python3
 """
-This module implements a Square object
+more class base
 """
 
 
 Rectangle = __import__('9-rectangle').Rectangle
 
 
-class Square(Rectangle):
-    """implementation
-    """
-    def __init__(self, size):
-        """initialization
+"""
+Square class
+"""
 
-        Args:
-            size (int): size
-        """
-        super().__init__(size, size)
+
+class Square(Rectangle):
+    """ Square Class """
+    def __init__(self, size):
+        """ instantiation with size """
+        self.__size = size
+        super().__init__(self.__size, self.__size)
